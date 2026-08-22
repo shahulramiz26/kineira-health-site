@@ -54,7 +54,8 @@
   #bodySilhouette[data-depth="muscle"] .depth-muscle{ display: block; animation: layerIn 0.5s var(--ease-clinical) forwards; }
   #bodySilhouette[data-depth="skeletal"] .depth-skeletal{ display: block; animation: layerIn 0.5s var(--ease-clinical) forwards; }
   @keyframes layerIn{ from{ opacity: 0; } to{ opacity: 1; } }
-  #bodyMapSvg{ filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+  #bodyMapSvg{ overflow: visible; }
+  #bodySilhouette .depth-surface, #bodySilhouette .depth-muscle{ filter: drop-shadow(0 0 10px rgba(164,169,141,0.25)); }
   #bodyMapSvg:hover #bodySilhouette{ animation: figureBreathe 6s ease-in-out infinite; }
   @keyframes figureBreathe{ 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.008); } }
   .region-hit{ cursor: pointer; }
@@ -225,136 +226,99 @@
           <svg id="bodyMapSvg" viewBox="0 0 1000 1000" style="width:100%;" role="group" aria-label="Interactive human body — select an area to learn about our rehabilitation programmes">
             <g id="bodySilhouette" data-depth="surface">
               <defs>
-                <linearGradient id="figFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#A4A98D" stop-opacity="0.22"/>
-                  <stop offset="100%" stop-color="#596452" stop-opacity="0.05"/>
+                <linearGradient id="figFill" gradientUnits="userSpaceOnUse" x1="0" y1="100" x2="0" y2="950">
+                  <stop offset="0%" stop-color="#A4A98D" stop-opacity="0.92"/>
+                  <stop offset="100%" stop-color="#596452" stop-opacity="0.8"/>
                 </linearGradient>
-                <filter id="figGlow" x="-40%" y="-40%" width="180%" height="180%">
-                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                <filter id="figGlow" x="-60%" y="-60%" width="220%" height="220%">
+                  <feGaussianBlur stdDeviation="2.5" result="blur"/>
                   <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                 </filter>
               </defs>
 
-              <!-- SURFACE: soft filled silhouette, smooth contours -->
+              <!-- Shared skeleton geometry -- a clean, correctly-proportioned "rounded tube" figure,
+                   in the style of modern fitness/movement app icons (Nike Training, Apple Fitness). -->
+
+              <!-- SURFACE: filled rounded-tube figure -->
               <g class="depth-layer depth-surface">
-                <circle cx="500" cy="148" r="58" fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.6" opacity="0.9"/>
-                <path d="M466,203 C466,222 470,236 500,238 C530,236 534,222 534,203
-                         L534,222 C534,240 520,252 500,254 C480,252 466,240 466,222 Z"
-                      fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.4" opacity="0.85"/>
-                <path d="M500,238
-                         C 400,240 330,255 306,275
-                         C 288,320 270,368 258,404
-                         C 254,416 262,428 274,424
-                         C 292,412 312,372 330,332
-                         C 336,360 340,392 342,420
-                         C 330,470 322,510 320,538
-                         C 336,556 356,556 372,540
-                         C 380,500 392,458 410,426
-                         C 402,470 398,516 398,540
-                         C 396,610 402,690 412,760
-                         C 414,800 412,845 405,890
-                         C 402,915 410,935 430,938
-                         C 448,940 460,924 462,902
-                         C 470,845 480,780 490,730
-                         C 495,700 500,670 500,650
-                         C 500,670 505,700 510,730
-                         C 520,780 530,845 538,902
-                         C 540,924 552,940 570,938
-                         C 590,935 598,915 595,890
-                         C 588,845 586,800 588,760
-                         C 598,690 604,610 602,540
-                         C 602,516 598,470 590,426
-                         C 608,458 620,500 628,540
-                         C 644,556 664,556 680,538
-                         C 678,510 670,470 658,420
-                         C 660,392 664,360 670,332
-                         C 688,372 708,412 726,424
-                         C 738,428 746,416 742,404
-                         C 730,368 712,320 694,275
-                         C 670,255 600,240 500,238 Z"
-                      fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.6" opacity="0.85" stroke-linejoin="round"/>
+                <circle cx="500" cy="140" r="40" fill="url(#figFill)" stroke="none"/>
+                <line x1="500" y1="178" x2="500" y2="212" stroke="url(#figFill)" stroke-width="24" stroke-linecap="round"/>
+                <path d="M338,222 C 380,208 425,202 500,202 C575,202 620,208 662,222
+                         L 600,262 C 592,302 582,326 572,342
+                         L 548,497 L 452,497
+                         L 428,342
+                         C 418,326 408,302 400,262 Z"
+                      fill="url(#figFill)" stroke="none"/>
+                <path d="M338,222 L268,395 L212,488 L192,545" stroke="url(#figFill)" stroke-width="30" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M662,222 L732,395 L788,488 L808,545" stroke="url(#figFill)" stroke-width="30" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="462" y1="493" x2="440" y2="680" stroke="url(#figFill)" stroke-width="42" stroke-linecap="round"/>
+                <line x1="440" y1="680" x2="440" y2="850" stroke="url(#figFill)" stroke-width="34" stroke-linecap="round"/>
+                <line x1="440" y1="850" x2="424" y2="928" stroke="url(#figFill)" stroke-width="26" stroke-linecap="round"/>
+                <line x1="538" y1="493" x2="560" y2="680" stroke="url(#figFill)" stroke-width="42" stroke-linecap="round"/>
+                <line x1="560" y1="680" x2="560" y2="850" stroke="url(#figFill)" stroke-width="34" stroke-linecap="round"/>
+                <line x1="560" y1="850" x2="576" y2="928" stroke="url(#figFill)" stroke-width="26" stroke-linecap="round"/>
               </g>
 
-              <!-- MUSCLE: silhouette + contour lines suggesting major muscle groups -->
+              <!-- MUSCLE: tube figure + a few contour lines suggesting major muscle groups -->
               <g class="depth-layer depth-muscle">
-                <use href="#muscleBase"/>
-                <g fill="none" stroke="#A4A98D" stroke-width="1.1" opacity="0.55">
-                  <path d="M420,270 C460,290 540,290 580,270"/>
-                  <path d="M430,320 C465,335 535,335 570,320"/>
-                  <path d="M450,380 C475,392 525,392 550,380"/>
-                  <path d="M330,300 C310,330 296,368 286,400"/>
-                  <path d="M670,300 C690,330 704,368 714,400"/>
-                  <path d="M440,560 C460,600 460,650 452,700"/>
-                  <path d="M560,560 C540,600 540,650 548,700"/>
-                  <path d="M430,760 C438,800 442,845 436,890"/>
-                  <path d="M570,760 C562,800 558,845 564,890"/>
+                <use href="#tubeBase"/>
+                <g fill="none" stroke="#F5F1EA" stroke-width="1.1" opacity="0.4" stroke-linecap="round">
+                  <path d="M430,270 C460,286 540,286 570,270"/>
+                  <path d="M440,320 C465,332 535,332 560,320"/>
+                  <path d="M455,375 C475,384 525,384 545,375"/>
+                  <path d="M300,300 C285,335 275,368 268,395"/>
+                  <path d="M700,300 C715,335 725,368 732,395"/>
+                  <path d="M446,560 C458,600 456,645 448,690"/>
+                  <path d="M554,560 C542,600 544,645 552,690"/>
                 </g>
               </g>
 
-              <!-- SKELETAL: simplified bone lines + joints -->
-              <g class="depth-layer depth-skeletal" stroke="#A4A98D" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round">
-                <circle cx="500" cy="148" r="30" stroke-width="1.6"/>
-                <line x1="500" y1="206" x2="500" y2="520"/>
-                <circle cx="500" cy="240" r="6" fill="#A4A98D" stroke="none"/>
-                <line x1="500" y1="250" x2="330" y2="270"/>
-                <line x1="330" y1="270" x2="270" y2="400"/>
-                <line x1="270" y1="400" x2="210" y2="495"/>
-                <circle cx="330" cy="270" r="7" fill="#A4A98D" stroke="none"/>
-                <circle cx="270" cy="400" r="7" fill="#A4A98D" stroke="none"/>
-                <circle cx="210" cy="495" r="7" fill="#A4A98D" stroke="none"/>
-                <line x1="500" y1="250" x2="670" y2="270"/>
-                <line x1="670" y1="270" x2="730" y2="400"/>
-                <line x1="730" y1="400" x2="790" y2="495"/>
-                <circle cx="670" cy="270" r="7" fill="#A4A98D" stroke="none"/>
-                <line x1="500" y1="510" x2="440" y2="680"/>
-                <line x1="440" y1="680" x2="440" y2="850"/>
-                <line x1="440" y1="850" x2="420" y2="925"/>
-                <circle cx="500" cy="510" r="7" fill="#A4A98D" stroke="none"/>
-                <circle cx="440" cy="680" r="7" fill="#A4A98D" stroke="none"/>
+              <!-- SKELETAL: thin bone lines + joint nodes on the same geometry -->
+              <g class="depth-layer depth-skeletal" stroke="#A4A98D" stroke-width="2.2" fill="none" opacity="0.85" stroke-linecap="round">
+                <circle cx="500" cy="140" r="30" stroke-width="1.8"/>
+                <line x1="500" y1="170" x2="500" y2="500"/>
+                <circle cx="500" cy="215" r="6" fill="#A4A98D" stroke="none"/>
+                <line x1="500" y1="222" x2="335" y2="230"/>
+                <line x1="335" y1="230" x2="268" y2="395"/>
+                <line x1="268" y1="395" x2="212" y2="488"/>
+                <circle cx="335" cy="230" r="7" fill="#A4A98D" stroke="none"/>
+                <circle cx="268" cy="395" r="7" fill="#A4A98D" stroke="none"/>
+                <circle cx="212" cy="488" r="7" fill="#A4A98D" stroke="none"/>
+                <line x1="500" y1="222" x2="665" y2="230"/>
+                <line x1="665" y1="230" x2="732" y2="395"/>
+                <line x1="732" y1="395" x2="788" y2="488"/>
+                <circle cx="665" cy="230" r="7" fill="#A4A98D" stroke="none"/>
+                <line x1="500" y1="495" x2="460" y2="680"/>
+                <line x1="460" y1="680" x2="440" y2="850"/>
+                <circle cx="500" cy="495" r="7" fill="#A4A98D" stroke="none"/>
+                <circle cx="460" cy="680" r="7" fill="#A4A98D" stroke="none"/>
                 <circle cx="440" cy="850" r="7" fill="#A4A98D" stroke="none"/>
-                <line x1="500" y1="510" x2="560" y2="680"/>
-                <line x1="560" y1="680" x2="560" y2="850"/>
-                <line x1="560" y1="850" x2="580" y2="925"/>
-                <circle cx="560" cy="680" r="7" fill="#A4A98D" stroke="none"/>
+                <line x1="500" y1="495" x2="540" y2="680"/>
+                <line x1="540" y1="680" x2="560" y2="850"/>
+                <circle cx="540" cy="680" r="7" fill="#A4A98D" stroke="none"/>
                 <circle cx="560" cy="850" r="7" fill="#A4A98D" stroke="none"/>
               </g>
             </g>
-            <defs><g id="muscleBase">
-              <circle cx="500" cy="148" r="58" fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.6" opacity="0.9"/>
-              <path d="M500,238
-                       C 400,240 330,255 306,275
-                       C 288,320 270,368 258,404
-                       C 254,416 262,428 274,424
-                       C 292,412 312,372 330,332
-                       C 336,360 340,392 342,420
-                       C 330,470 322,510 320,538
-                       C 336,556 356,556 372,540
-                       C 380,500 392,458 410,426
-                       C 402,470 398,516 398,540
-                       C 396,610 402,690 412,760
-                       C 414,800 412,845 405,890
-                       C 402,915 410,935 430,938
-                       C 448,940 460,924 462,902
-                       C 470,845 480,780 490,730
-                       C 495,700 500,670 500,650
-                       C 500,670 505,700 510,730
-                       C 520,780 530,845 538,902
-                       C 540,924 552,940 570,938
-                       C 590,935 598,915 595,890
-                       C 588,845 586,800 588,760
-                       C 598,690 604,610 602,540
-                       C 602,516 598,470 590,426
-                       C 608,458 620,500 628,540
-                       C 644,556 664,556 680,538
-                       C 678,510 670,470 658,420
-                       C 660,392 664,360 670,332
-                       C 688,372 708,412 726,424
-                       C 738,428 746,416 742,404
-                       C 730,368 712,320 694,275
-                       C 670,255 600,240 500,238 Z"
-                    fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.6" opacity="0.85" stroke-linejoin="round"/>
-            </g></defs>
-            
+            <defs>
+              <g id="tubeBase">
+                <circle cx="500" cy="140" r="40" fill="url(#figFill)" stroke="none"/>
+                <line x1="500" y1="178" x2="500" y2="212" stroke="url(#figFill)" stroke-width="24" stroke-linecap="round"/>
+                <path d="M338,222 C 380,208 425,202 500,202 C575,202 620,208 662,222
+                         L 600,262 C 592,302 582,326 572,342
+                         L 548,497 L 452,497
+                         L 428,342
+                         C 418,326 408,302 400,262 Z"
+                      fill="url(#figFill)" stroke="none"/>
+                <path d="M338,222 L268,395 L212,488 L192,545" stroke="url(#figFill)" stroke-width="30" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M662,222 L732,395 L788,488 L808,545" stroke="url(#figFill)" stroke-width="30" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="462" y1="493" x2="440" y2="680" stroke="url(#figFill)" stroke-width="42" stroke-linecap="round"/>
+                <line x1="440" y1="680" x2="440" y2="850" stroke="url(#figFill)" stroke-width="34" stroke-linecap="round"/>
+                <line x1="440" y1="850" x2="424" y2="928" stroke="url(#figFill)" stroke-width="26" stroke-linecap="round"/>
+                <line x1="538" y1="493" x2="560" y2="680" stroke="url(#figFill)" stroke-width="42" stroke-linecap="round"/>
+                <line x1="560" y1="680" x2="560" y2="850" stroke="url(#figFill)" stroke-width="34" stroke-linecap="round"/>
+                <line x1="560" y1="850" x2="576" y2="928" stroke="url(#figFill)" stroke-width="26" stroke-linecap="round"/>
+              </g>
+            </defs>
       <a href="rehabilitation/neck.html" class="region-hit" tabindex="0"
          data-label="NECK" data-title="Neck & Cervical Rehabilitation" data-blurb="Desk posture, stiffness, headaches and nerve-related pain."
          data-concerns="Pain|Stiffness|Posture|Headaches|Mobility" data-href="rehabilitation/neck.html"
