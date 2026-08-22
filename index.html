@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kineira Health — Physiotherapy & Rehabilitation</title>
+<meta name="description" content="Kineira Health is a physiotherapy and rehabilitation practice. Personalised care for pain, injury, recovery and everyday movement — in clinic, at home and at work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "name": "Kineira Health",
+  "description": "Physiotherapy and rehabilitation practice offering clinical, home, workplace and sports rehabilitation.",
+  "slogan": "Move better. Feel better. Live better."
+}
+</script>
+<style>
+  /* ---------- HERO ---------- */
+  .hero{ padding: 96px 0 80px; background: radial-gradient(700px 460px at 85% -10%, rgba(89,100,82,0.16), transparent 60%), var(--ink); overflow: hidden; position: relative; }
+  .hero-grid{ display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+  .hero h1{ font-size: 52px; margin-bottom: 22px; font-weight: 500; }
+  .hero h1 .accent{ color: var(--sage-light); }
+  .hero p.lead{ font-size: 17px; color: var(--muted); max-width: 480px; margin-bottom: 34px; }
+  .hero-ctas{ display: flex; align-items: center; gap: 26px; margin-bottom: 44px; flex-wrap: wrap; }
+  .tagline-strip{ display: flex; align-items: center; gap: 14px; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-dim); }
+  .tagline-strip .dot{ width: 4px; height: 4px; border-radius: 50%; background: var(--sage-light); }
+  .hero-visual{ position: relative; }
+  .hero-visual .frame{ border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-lift); position: relative; aspect-ratio: 4/4.6; border: 1px solid var(--hairline-strong); }
+  .hero-visual .frame img{ width:100%; height:100%; object-fit: cover; }
+  .float-label{ position: absolute; background: rgba(21,25,22,0.88); backdrop-filter: blur(10px); border: 1px solid var(--hairline-strong); border-radius: 12px; padding: 10px 14px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); box-shadow: var(--shadow-lift); }
+  .float-label span{ display:block; color: var(--muted); font-size: 9.5px; text-transform: none; letter-spacing: 0; margin-top: 2px; }
+  .fl-1{ top: 8%; left: -8%; }
+  .fl-2{ top: 38%; right: -10%; }
+  .fl-3{ bottom: 22%; left: -10%; }
+  .fl-4{ bottom: 4%; right: -6%; }
+
+  /* ---------- BODY MAP ---------- */
+  .body-map-section{ border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); background: var(--charcoal); padding: 96px 0; }
+  .bm-head{ max-width: 640px; margin-bottom: 50px; }
+  .bm-head h2{ font-size: 40px; margin-bottom: 16px; }
+  .bm-head h2 .accent{ color: var(--sage-light); }
+  .bm-head p{ font-size: 16px; color: var(--muted); }
+  .bm-grid{ display: grid; grid-template-columns: minmax(0,1fr) 380px; gap: 50px; align-items: center; }
+  .bm-figure-wrap{ position: relative; margin: 0 auto; max-width: 420px; width: 100%; }
+  .depth-toggle{ display: flex; gap: 4px; border: 1px solid var(--hairline); background: var(--card); border-radius: 999px; padding: 4px; margin-bottom: 24px; }
+  .depth-toggle button{ flex: 1; border: none; background: transparent; color: var(--muted); font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; padding: 9px 8px; border-radius: 999px; cursor: pointer; transition: background 0.3s ease, color 0.3s ease; }
+  .depth-toggle button[aria-checked="true"]{ background: rgba(164,169,141,0.18); color: var(--cream); }
+  #bodySilhouette{ transition: opacity 0.4s ease; }
+  #bodySilhouette[data-depth="muscle"]{ opacity: 0.75; }
+  #bodySilhouette[data-depth="skeletal"]{ opacity: 0.5; }
+  .region-hit{ cursor: pointer; }
+  .hit-dot{ fill: var(--sage); transition: all 0.35s var(--ease-clinical); }
+  .hit-ring{ stroke: var(--sage-light); stroke-width: 1.5; opacity: 0; transition: all 0.35s var(--ease-clinical); }
+  .region-hit:hover .hit-dot, .region-hit:focus .hit-dot, .region-hit.is-active .hit-dot{ fill: var(--sage-light); r: 10; }
+  .region-hit:hover .hit-ring, .region-hit:focus .hit-ring, .region-hit.is-active .hit-ring{ opacity: 1; r: 18; }
+  .bm-panel-empty p{ color: var(--muted); font-size: 15px; padding: 40px 8px; }
+  .bm-panel-inner{ background: var(--card); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-lift); }
+  .bm-panel-inner h3{ font-size: 22px; margin: 6px 0 12px; }
+  .bm-blurb{ font-size: 14.5px; color: var(--muted); margin-bottom: 18px; }
+  .bm-chips{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+  .bm-chips span{ font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sage-light); background: rgba(89,100,82,0.18); border: 1px solid rgba(164,169,141,0.25); padding: 5px 10px; border-radius: 999px; }
+
+  /* ---------- PROGRAMMES ---------- */
+  .programmes{ padding: 110px 0; }
+  .section-head{ display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 54px; }
+  .section-head h2{ font-size: 38px; max-width: 620px; }
+  .section-head p{ color: var(--muted); font-size: 15px; max-width: 300px; padding-bottom: 4px; }
+  .prog-grid{ display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
+  .prog-card{ display: flex; flex-direction: column; overflow: hidden; }
+  .prog-img{ aspect-ratio: 16/11; position: relative; overflow: hidden; }
+  .prog-img img{ width:100%; height:100%; object-fit: cover; transition: transform 0.7s var(--ease-clinical); }
+  .prog-card:hover .prog-img img{ transform: scale(1.05); }
+  .prog-img::after{ content:''; position: absolute; inset:0; background: linear-gradient(0deg, rgba(21,25,22,0.9), transparent 55%); }
+  .prog-num{ position: absolute; top: 16px; left: 16px; font-family: var(--font-mono); font-size: 11px; color: var(--champagne); z-index: 2; letter-spacing: 0.1em; }
+  .prog-body{ padding: 24px 26px 28px; flex: 1; display: flex; flex-direction: column; }
+  .prog-body h3{ font-size: 19px; margin-bottom: 10px; }
+  .prog-body p{ color: var(--muted); font-size: 14px; flex: 1; }
+  .prog-cta{ margin-top: 16px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage-light); display: inline-flex; align-items: center; gap: 6px; }
+
+  /* ---------- AUDIENCES ---------- */
+  .audiences{ padding: 0 0 110px; }
+  .aud-grid{ display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .aud-tile{ position: relative; aspect-ratio: 4/5; border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--hairline); }
+  .aud-tile img{ width:100%; height:100%; object-fit: cover; transition: transform 0.7s var(--ease-clinical); }
+  .aud-tile:hover img{ transform: scale(1.06); }
+  .aud-overlay{ position: absolute; inset:0; background: linear-gradient(0deg, rgba(11,13,12,0.92), rgba(11,13,12,0.1) 55%); display: flex; flex-direction: column; justify-content: flex-end; padding: 22px; }
+  .aud-overlay h4{ font-size: 18px; margin-bottom: 6px; }
+  .aud-overlay p{ font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how{ padding: 110px 0; border-top: 1px solid var(--hairline); background: var(--charcoal); }
+  .steps{ position: relative; margin-top: 60px; }
+  .steps-grid{ display: grid; grid-template-columns: repeat(4,1fr); gap: 30px; position: relative; z-index: 1; }
+  .step{ text-align: left; }
+  .step .step-num{ font-family: var(--font-mono); font-size: 12px; color: var(--champagne); letter-spacing: 0.1em; margin-bottom: 14px; }
+  .step h4{ font-size: 19px; margin-bottom: 10px; }
+  .step p{ font-size: 13.5px; color: var(--muted); }
+  .steps-connector-wrap{ position: absolute; top: 8px; left: 0; right: 0; height: 2px; }
+
+  /* ---------- FOUNDER ---------- */
+  .founder{ padding: 110px 0; position: relative; overflow: hidden; }
+  .founder-grid{ display: grid; grid-template-columns: 0.78fr 1.22fr; gap: 64px; align-items: center; }
+  .founder-photo{ border-radius: var(--radius-card); overflow: hidden; aspect-ratio: 3/3.7; box-shadow: var(--shadow-lift); border: 1px solid var(--hairline-strong); }
+  .founder-photo img{ width:100%; height:100%; object-fit: cover; }
+  .founder h2{ font-size: 34px; margin-bottom: 20px; max-width: 500px; }
+  .founder p.bio{ color: var(--muted); font-size: 15.5px; max-width: 540px; margin-bottom: 26px; }
+  .credentials{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 540px; margin-bottom: 28px; }
+  .credentials li{ display: flex; align-items: flex-start; gap: 9px; font-size: 13px; padding: 12px 14px; background: var(--card); border: 1px solid var(--hairline); border-radius: 12px; }
+  .founder-name .sig{ font-family: var(--font-display); font-size: 21px; font-weight: 600; color: var(--cream); }
+  .founder-name .role{ font-family: var(--font-mono); font-size: 10.5px; color: var(--sage-light); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px; }
+
+  /* ---------- BOOKING CTA ---------- */
+  .cta-banner{ margin: 0 32px 110px; max-width: 1176px; margin-left:auto; margin-right:auto; background: linear-gradient(120deg, #14180F, #151916 55%, #12201A); border: 1px solid var(--hairline-strong); border-radius: 28px; padding: 64px 60px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+  .cta-banner h2{ font-size: 30px; max-width: 420px; }
+  .cta-banner p{ color: var(--muted); margin-top: 10px; font-size: 14.5px; max-width: 380px; }
+  .cta-btns{ display: flex; gap: 16px; flex-wrap: wrap; }
+
+  @media (max-width: 980px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    .hero h1{ font-size: 38px; }
+    .hero-visual{ order: -1; max-width: 380px; margin: 0 auto; }
+    .float-label{ display: none; }
+    .bm-grid{ grid-template-columns: 1fr; }
+    .prog-grid{ grid-template-columns: repeat(2,1fr); }
+    .aud-grid{ grid-template-columns: repeat(2,1fr); }
+    .steps-grid{ grid-template-columns: repeat(2,1fr); row-gap: 40px; }
+    .steps-connector-wrap{ display: none; }
+    .founder-grid{ grid-template-columns: 1fr; }
+    .founder-photo{ max-width: 320px; margin: 0 auto; }
+    .credentials{ grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px){
+    .hero{ padding: 44px 0 56px; }
+    .hero h1{ font-size: 30px; }
+    .section-head{ flex-direction: column; align-items: flex-start; gap: 14px; }
+    .prog-grid{ grid-template-columns: 1fr; }
+    .aud-grid{ grid-template-columns: 1fr 1fr; }
+    .steps-grid{ grid-template-columns: 1fr 1fr; }
+    .cta-banner{ padding: 44px 28px; margin: 0 20px 80px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">
+      <img src="assets/logo-icon.png" alt="Kineira Health icon">
+      <span>KINEIRA HEALTH<small>Physiotherapy &amp; Rehabilitation</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#programmes">Programmes</a>
+      <a href="index.html#body-map">Rehabilitation</a>
+      <a href="about.html">About</a>
+      <a href="workplace.html">Workplace</a>
+      <a href="contact.html">Contact</a>
+      <a href="book.html" class="nav-cta">Book an Assessment</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Physiotherapy • Rehabilitation • Wellness</div>
+        <h1>Your body was built to move.<br>We help you <span class="accent">move better.</span></h1>
+        <p class="lead">Personalised physiotherapy and rehabilitation for pain, injury, recovery and everyday movement — delivered in clinic, at home and at work.</p>
+        <div class="hero-ctas">
+          <a href="book.html" class="btn-primary">Book an Assessment
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#body-map" class="btn-ghost">Explore rehabilitation
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <div class="tagline-strip"><span>Clinic</span><span class="dot"></span><span>Home</span><span class="dot"></span><span>Workplace</span><span class="dot"></span><span>Performance</span></div>
+      </div>
+      <div class="hero-visual">
+        <div class="frame duotone">
+          <img src="assets/sage-hero-rehab.jpg" alt="Physiotherapist guiding a patient through a shoulder exercise">
+        </div>
+        <div class="float-label fl-1">SHOULDER<span>Mobility & pain</span></div>
+        <div class="float-label fl-2">SPINE<span>Posture & movement</span></div>
+        <div class="float-label fl-3">HIP<span>Mobility & stability</span></div>
+        <div class="float-label fl-4">KNEE<span>Strength & recovery</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY MAP -->
+  <section class="body-map-section anatomy-grid" id="body-map">
+    <div class="wrap">
+      <div class="bm-head reveal">
+        <p class="eyebrow">Start here</p>
+        <h2>Where does it <span class="accent">hurt?</span></h2>
+        <p>Tell us where you're struggling. We'll help you find the right path to recovery.</p>
+      </div>
+      <div class="bm-grid">
+        <div class="bm-figure-wrap reveal">
+          <div class="depth-toggle" id="depthToggle" role="radiogroup" aria-label="Anatomical depth">
+            <button role="radio" aria-checked="true" data-depth="surface">Surface</button>
+            <button role="radio" aria-checked="false" data-depth="muscle">Muscle</button>
+            <button role="radio" aria-checked="false" data-depth="skeletal">Skeletal</button>
+          </div>
+          <svg id="bodyMapSvg" viewBox="0 0 1000 1000" style="width:100%;" role="group" aria-label="Interactive human body — select an area to learn about our rehabilitation programmes">
+            <g id="bodySilhouette" data-depth="surface" opacity="0.9">
+              <ellipse cx="500" cy="105" rx="55" ry="60" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M470 160 q30 15 60 0 l10 60 q-40 18 -80 0 z" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M420 210 q80 -30 160 0 l20 190 q-100 30 -200 0 z" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M420 220 q-70 20 -95 190" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M580 220 q70 20 95 190" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M325 410 q-20 60 5 110" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M675 410 q20 60 -5 110" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M450 400 q-30 220 -30 420" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M550 400 q30 220 30 420" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M420 830 q-10 60 -30 90" fill="none" stroke="#A4A98D" stroke-width="2"/>
+              <path d="M580 830 q10 60 30 90" fill="none" stroke="#A4A98D" stroke-width="2"/>
+            </g>
+            
+      <a href="rehabilitation/neck.html" class="region-hit" tabindex="0"
+         data-label="NECK" data-title="Neck & Cervical Rehabilitation" data-blurb="Desk posture, stiffness, headaches and nerve-related pain."
+         data-concerns="Pain|Stiffness|Posture|Headaches|Mobility" data-href="rehabilitation/neck.html"
+         aria-label="Neck & Cervical Rehabilitation — Desk posture, stiffness, headaches and nerve-related pain.">
+        <circle cx="500" cy="130" r="26" fill="transparent" class="hit-area"/>
+        <circle cx="500" cy="130" r="7" class="hit-dot"/>
+        <circle cx="500" cy="130" r="14" class="hit-ring" fill="none"/>
+      </a>
+
+      <a href="rehabilitation/shoulder.html" class="region-hit" tabindex="0"
+         data-label="SHOULDER" data-title="Shoulder Rehabilitation" data-blurb="Rotator cuff, impingement, frozen shoulder and post-surgical recovery."
+         data-concerns="Pain|Range of motion|Strength|Overhead work|Post-op" data-href="rehabilitation/shoulder.html"
+         aria-label="Shoulder Rehabilitation — Rotator cuff, impingement, frozen shoulder and post-surgical recovery.">
+        <circle cx="330" cy="220" r="26" fill="transparent" class="hit-area"/>
+        <circle cx="330" cy="220" r="7" class="hit-dot"/>
+        <circle cx="330" cy="220" r="14" class="hit-ring" fill="none"/>
+      </a>
+
+      <a href="rehabilitation/back-spine.html" class="region-hit" tabindex="0"
+         data-label="BACK & SPINE" data-title="Spine & Back Rehabilitation" data-blurb="Lower-back pain, disc issues, lifting injuries and postural strain."
+         data-concerns="Pain|Posture|Core strength|Lifting|Sciatica" data-href="rehabilitation/back-spine.html"
+         aria-label="Spine & Back Rehabilitation — Lower-back pain, disc issues, lifting injuries and postural strain.">
+        <circle cx="500" cy="330" r="26" fill="transparent" class="hit-area"/>
+        <circle cx="500" cy="330" r="7" class="hit-dot"/>
+        <circle cx="500" cy="330" r="14" class="hit-ring" fill="none"/>
+      </a>
+
+      <a href="rehabilitation/elbow.html" class="region-hit" tabindex="0"
+         data-label="ELBOW" data-title="Elbow Rehabilitation" data-blurb="Tennis and golfer's elbow, repetitive strain, post-fracture stiffness."
+         data-concerns="Tendon pain|Grip strength|Repetitive work|Mobility" data-href="rehabilitation/elbow.html"
+         aria-label="Elbow Rehabilitation — Tennis and golfer's elbow, repetitive strain, post-fracture stiffness.">
+        <circle cx="260" cy="400" r="26" fill="transparent" class="hit-area"/>
+        <circle cx="260" cy="400" r="7" class="hit-dot"/>
+        <circle cx="260" cy="400" r="14" class="hit-ring" fill="none"/>
+      </a>
+
+      <a href="rehabilitation/wrist-hand.html" class="region-hit" tabindex="0"
+         data-label="WRIST & HAND" data-title="Wrist & Hand Rehabilitation" data-blurb="Carpal tunnel, tendon strain, keyboard and tool-related overuse."
+         data-concerns="Nerve pain|Grip|Swelling|Dexterity|Return to work" data-href="rehabilitation/wrist-hand.html"
+         aria-label="Wrist & Hand Rehabilitation — Carpal tunnel, tendon strain, keyboard and tool-related overuse.">
+        <circle cx="210" cy="490" r="26" fill="transparent" class="hit-area"/>
+        <circle cx="210" cy="490" r="7" class="hit-dot"/>
+        <circle cx="210" cy="490" r="14" class="hit-ring" fill="none"/>
+      </a>
+
+      <a href="rehabilitation/hip.html" class="region-hit" tabindex="0"
+         data-label="HIP" data-title="Hip Rehabilitation" data-blurb="Hip pain, replacements, gait problems and mobility loss."
+         data-concerns="Mobility|Stability|Walking|Post-op|Balance" data-href="rehabilitation/hip.html"
+         aria-label="Hip Rehabilitation — Hip pain, replacements, gait problems and mobility loss.">
+        <circle cx="500" cy="510" r="26" fill="transparent" class="hit-area"/>
+        <circle cx="500" cy="510" r="7" class="hit-dot"/>
+        <circle cx="500" cy="510" r="14" class="hit-ring" fill="none"/>
+      </a>
+
+      <a href="rehabilitation/knee.html" class="region-hit" tabindex="0"
+         data-label="KNEE" data-title="Knee Rehabilitation" data-blurb="Knee pain affects everything from walking to sport."
+         data-concerns="Pain|Mobility|Strength|Balance|Recovery" data-href="rehabilitation/knee.html"
+         aria-label="Knee Rehabilitation — Knee pain affects everything from walking to sport.">
+        <circle cx="440" cy="680" r="26" fill="transparent" class="hit-area"/>
+        <circle cx="440" cy="680" r="7" class="hit-dot"/>
+        <circle cx="440" cy="680" r="14" class="hit-ring" fill="none"/>
+      </a>
+
+      <a href="rehabilitation/ankle.html" class="region-hit" tabindex="0"
+         data-label="ANKLE" data-title="Ankle Rehabilitation" data-blurb="Sprains, instability, post-fracture recovery and return to sport."
+         data-concerns="Sprains|Stability|Strength|Balance|Sport" data-href="rehabilitation/ankle.html"
+         aria-label="Ankle Rehabilitation — Sprains, instability, post-fracture recovery and return to sport.">
+        <circle cx="440" cy="850" r="26" fill="transparent" class="hit-area"/>
+        <circle cx="440" cy="850" r="7" class="hit-dot"/>
+        <circle cx="440" cy="850" r="14" class="hit-ring" fill="none"/>
+      </a>
+
+      <a href="rehabilitation/foot.html" class="region-hit" tabindex="0"
+         data-label="FOOT" data-title="Foot Rehabilitation" data-blurb="Plantar heel pain, standing-all-day fatigue and gait correction."
+         data-concerns="Heel pain|Gait|Standing work|Orthotics|Load" data-href="rehabilitation/foot.html"
+         aria-label="Foot Rehabilitation — Plantar heel pain, standing-all-day fatigue and gait correction.">
+        <circle cx="440" cy="930" r="26" fill="transparent" class="hit-area"/>
+        <circle cx="440" cy="930" r="7" class="hit-dot"/>
+        <circle cx="440" cy="930" r="14" class="hit-ring" fill="none"/>
+      </a>
+          </svg>
+        </div>
+        <div class="bm-panel" id="bodyMapPanel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMMES -->
+  <section class="programmes" id="programmes">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Six ways to move better</h2>
+        <p>Every programme is built around the same idea — treat the person, not just the injury.</p>
+      </div>
+      <div class="prog-grid">
+        
+        <a href="programmes/clinical-rehabilitation.html" class="prog-card card reveal">
+          <div class="prog-img duotone">
+            <span class="prog-num">01</span>
+            <img src="assets/sage-hero-rehab.jpg" alt="Clinical Rehabilitation">
+          </div>
+          <div class="prog-body">
+            <h3>Clinical Rehabilitation</h3>
+            <p>Hands-on, one-to-one therapy for post-surgical recovery, chronic pain and injury — built around measurable movement goals.</p>
+            <span class="prog-cta">Explore programme
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="programmes/home-physiotherapy.html" class="prog-card card reveal">
+          <div class="prog-img duotone">
+            <span class="prog-num">02</span>
+            <img src="assets/sage-home-care.jpg" alt="Home Physiotherapy">
+          </div>
+          <div class="prog-body">
+            <h3>Home Physiotherapy</h3>
+            <p>Full assessments and therapy sessions delivered at home, for patients who can't easily travel to a clinic.</p>
+            <span class="prog-cta">Explore programme
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="programmes/workplace-rehabilitation.html" class="prog-card card reveal">
+          <div class="prog-img duotone">
+            <span class="prog-num">03</span>
+            <img src="assets/sage-warehouse.jpg" alt="Workplace Rehabilitation">
+          </div>
+          <div class="prog-body">
+            <h3>Workplace Rehabilitation</h3>
+            <p>On-site ergonomic assessments and injury-prevention programmes for teams of every kind — desk-based or hands-on.</p>
+            <span class="prog-cta">Explore programme
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="programmes/sports-performance.html" class="prog-card card reveal">
+          <div class="prog-img duotone">
+            <span class="prog-num">04</span>
+            <img src="assets/sage-sports.jpg" alt="Sports & Performance">
+          </div>
+          <div class="prog-body">
+            <h3>Sports & Performance</h3>
+            <p>Return-to-play programmes for athletes — from weekend runners to competitive squads — built around your sport's demands.</p>
+            <span class="prog-cta">Explore programme
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="programmes/pediatric-physiotherapy.html" class="prog-card card reveal">
+          <div class="prog-img duotone">
+            <span class="prog-num">05</span>
+            <img src="assets/sage-pediatric.jpg" alt="Pediatric Physiotherapy">
+          </div>
+          <div class="prog-body">
+            <h3>Pediatric Physiotherapy</h3>
+            <p>Play-based therapy that supports strength, balance and developmental milestones, at a child's own pace.</p>
+            <span class="prog-cta">Explore programme
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="programmes/healthy-ageing.html" class="prog-card card reveal">
+          <div class="prog-img duotone">
+            <span class="prog-num">06</span>
+            <img src="assets/sage-office.jpg" alt="Healthy Ageing & Mobility">
+          </div>
+          <div class="prog-body">
+            <h3>Healthy Ageing & Mobility</h3>
+            <p>Balance, strength and fall-prevention programmes that help older adults stay independent and confident on their feet.</p>
+            <span class="prog-cta">Explore programme
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIENCES -->
+  <section class="audiences">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Physiotherapy for real life</h2>
+        <p>From factory floor to finish line — everyone deserves a path back to moving well.</p>
+      </div>
+      <div class="aud-grid">
+        
+        <div class="aud-tile duotone reveal">
+          <img src="assets/sage-warehouse.jpg" alt="Workers">
+          <div class="aud-overlay">
+            <h4>Workers</h4>
+            <p>Physically demanding roles, on-site injury care and return-to-work planning.</p>
+          </div>
+        </div>
+
+        <div class="aud-tile duotone reveal">
+          <img src="assets/sage-office.jpg" alt="Professionals">
+          <div class="aud-overlay">
+            <h4>Professionals</h4>
+            <p>Desk posture, repetitive strain and ergonomic assessments for office life.</p>
+          </div>
+        </div>
+
+        <div class="aud-tile duotone reveal">
+          <img src="assets/sage-sports.jpg" alt="Athletes">
+          <div class="aud-overlay">
+            <h4>Athletes</h4>
+            <p>Return-to-play programmes built around your sport's specific demands.</p>
+          </div>
+        </div>
+
+        <div class="aud-tile duotone reveal">
+          <img src="assets/sage-home-care.jpg" alt="Older Adults">
+          <div class="aud-overlay">
+            <h4>Older Adults</h4>
+            <p>Balance, mobility and independence-focused rehabilitation.</p>
+          </div>
+        </div>
+
+        <div class="aud-tile duotone reveal">
+          <img src="assets/sage-pediatric.jpg" alt="Children">
+          <div class="aud-overlay">
+            <h4>Children</h4>
+            <p>Play-based therapy supporting healthy developmental milestones.</p>
+          </div>
+        </div>
+
+        <div class="aud-tile duotone reveal">
+          <img src="assets/sage-hero-rehab.jpg" alt="Home Patients">
+          <div class="aud-overlay">
+            <h4>Home Patients</h4>
+            <p>Full clinical care delivered wherever travel to a clinic isn't possible.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>How Kineira works</h2>
+        <p>A clear, four-step path from first visit to full recovery.</p>
+      </div>
+      <div class="steps">
+        <div class="steps-connector-wrap">
+          <svg width="100%" height="2" viewBox="0 0 1000 2" preserveAspectRatio="none">
+            <line id="stepsConnector" x1="0" y1="1" x2="1000" y2="1" stroke="#596452" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="steps-grid">
+          <div class="step reveal"><div class="step-num">01</div><h4>Assess</h4><p>A full clinical assessment to understand your pain, injury and movement goals.</p></div>
+          <div class="step reveal"><div class="step-num">02</div><h4>Plan</h4><p>A personalised treatment plan with clear milestones — not a generic routine.</p></div>
+          <div class="step reveal"><div class="step-num">03</div><h4>Recover</h4><p>Hands-on sessions in clinic, at home or at work, tracked every step.</p></div>
+          <div class="step reveal"><div class="step-num">04</div><h4>Move</h4><p>Return to the activities and work that matter to you, with confidence.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section class="founder" id="about">
+    <div class="wrap founder-grid">
+      <div class="founder-photo reveal"><img src="assets/founder.jpg" alt="Portrait of the founder, a physiotherapist in a white coat with a stethoscope"></div>
+      <div class="reveal">
+        <div class="eyebrow">The Practice</div>
+        <h2>Led by someone who still treats patients every week.</h2>
+        <p class="bio">Dr. Ibtesam Khanam founded Kineira Health after years in clinical and sports rehabilitation, believing recovery works best when it's personal, measured, and never rushed. Every plan starts with the same question: what does this person need to move toward, next?</p>
+        <ul class="credentials">
+          <li>Doctor of Physiotherapy <span class="placeholder-note" style="margin-left:6px;">edit</span></li>
+          <li>Certified Sports Rehab Specialist <span class="placeholder-note" style="margin-left:6px;">edit</span></li>
+          <li>10+ years clinical practice <span class="placeholder-note" style="margin-left:6px;">edit</span></li>
+          <li>Pediatric &amp; Geriatric care trained <span class="placeholder-note" style="margin-left:6px;">edit</span></li>
+        </ul>
+        <div class="founder-name">
+          <div class="sig">Dr. Ibtesam Khanam</div>
+          <div class="role">Founder &amp; Clinical Lead</div>
+        </div>
+        <div style="margin-top:26px;"><a href="about.html" class="btn-ghost">Meet our founder
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <div class="cta-banner reveal" id="contact">
+    <div>
+      <h2>Ready to move better?</h2>
+      <p>Book an assessment and leave with a plan built specifically around your body, your goals and your timeline.</p>
+    </div>
+    <div class="cta-btns">
+      <a href="book.html" class="btn-primary">Book an Assessment
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="home-physiotherapy.html" class="btn-outline">Request a Home Visit</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand"><img src="assets/logo-icon.png" alt="Kineira Health icon"><span>KINEIRA HEALTH<small>Physiotherapy &amp; Rehabilitation</small></span></a>
+        <p>Move Better. Feel Better. Live Better. Personalised physiotherapy and rehabilitation, in the clinic, at home, and at work.</p>
+        <span class="placeholder-note">Replace placeholder text &amp; contact info before publishing</span>
+      </div>
+      <div class="footer-col"><h5>Programmes</h5><ul>
+        <li><a href="programmes/clinical-rehabilitation.html">Clinical Rehabilitation</a></li>
+        <li><a href="programmes/home-physiotherapy.html">Home Physiotherapy</a></li>
+        <li><a href="programmes/workplace-rehabilitation.html">Workplace Rehabilitation</a></li>
+        <li><a href="programmes/sports-performance.html">Sports &amp; Performance</a></li>
+        <li><a href="programmes/pediatric-physiotherapy.html">Pediatric Physiotherapy</a></li>
+        <li><a href="programmes/healthy-ageing.html">Healthy Ageing</a></li>
+      </ul></div>
+      <div class="footer-col"><h5>Practice</h5><ul>
+        <li><a href="about.html">About the founder</a></li>
+        <li><a href="digital.html">Digital Rehabilitation</a></li>
+        <li><a href="workplace.html">Workplace Programmes</a></li>
+        <li><a href="book.html">Book an Assessment</a></li>
+      </ul></div>
+      <div class="footer-col"><h5>Contact</h5><ul>
+        <li>123 Wellness Avenue, Suite 200<br>Bengaluru, KA 560001</li>
+        <li>+91 00000 00000</li>
+        <li>hello@kineirahealth.com</li>
+        <li>Mon–Sat · 9am–7pm</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Kineira Health Physiotherapy &amp; Rehabilitation. All rights reserved.</span>
+      <span>Move Better. Feel Better. Live Better.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
