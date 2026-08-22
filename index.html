@@ -49,9 +49,14 @@
   .depth-toggle{ display: flex; gap: 4px; border: 1px solid var(--hairline); background: var(--card); border-radius: 999px; padding: 4px; margin-bottom: 24px; }
   .depth-toggle button{ flex: 1; border: none; background: transparent; color: var(--muted); font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; padding: 9px 8px; border-radius: 999px; cursor: pointer; transition: background 0.3s ease, color 0.3s ease; }
   .depth-toggle button[aria-checked="true"]{ background: rgba(164,169,141,0.18); color: var(--cream); }
-  #bodySilhouette{ transition: opacity 0.4s ease; }
-  #bodySilhouette[data-depth="muscle"]{ opacity: 0.75; }
-  #bodySilhouette[data-depth="skeletal"]{ opacity: 0.5; }
+  #bodySilhouette .depth-layer{ display: none; opacity: 0; transition: opacity 0.5s var(--ease-clinical); }
+  #bodySilhouette[data-depth="surface"] .depth-surface{ display: block; animation: layerIn 0.5s var(--ease-clinical) forwards; }
+  #bodySilhouette[data-depth="muscle"] .depth-muscle{ display: block; animation: layerIn 0.5s var(--ease-clinical) forwards; }
+  #bodySilhouette[data-depth="skeletal"] .depth-skeletal{ display: block; animation: layerIn 0.5s var(--ease-clinical) forwards; }
+  @keyframes layerIn{ from{ opacity: 0; } to{ opacity: 1; } }
+  #bodyMapSvg{ filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+  #bodyMapSvg:hover #bodySilhouette{ animation: figureBreathe 6s ease-in-out infinite; }
+  @keyframes figureBreathe{ 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.008); } }
   .region-hit{ cursor: pointer; }
   .hit-dot{ fill: var(--sage); transition: all 0.35s var(--ease-clinical); }
   .hit-ring{ stroke: var(--sage-light); stroke-width: 1.5; opacity: 0; transition: all 0.35s var(--ease-clinical); }
@@ -70,15 +75,22 @@
   .section-head h2{ font-size: 38px; max-width: 620px; }
   .section-head p{ color: var(--muted); font-size: 15px; max-width: 300px; padding-bottom: 4px; }
   .prog-grid{ display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-  .prog-card{ display: flex; flex-direction: column; overflow: hidden; }
+  .prog-card{ display: flex; flex-direction: column; overflow: hidden; position: relative; }
+  .prog-card::before{ content:''; position: absolute; inset: -1px; border-radius: var(--radius-card); padding: 1px; background: linear-gradient(135deg, rgba(164,169,141,0), rgba(164,169,141,0)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; transition: background 0.5s ease; z-index: 3; }
+  .prog-card:hover::before{ background: linear-gradient(135deg, rgba(164,169,141,0.55), rgba(89,100,82,0)); }
+  .prog-card:hover{ box-shadow: var(--glow-sage); }
   .prog-img{ aspect-ratio: 16/11; position: relative; overflow: hidden; }
-  .prog-img img{ width:100%; height:100%; object-fit: cover; transition: transform 0.7s var(--ease-clinical); }
-  .prog-card:hover .prog-img img{ transform: scale(1.05); }
-  .prog-img::after{ content:''; position: absolute; inset:0; background: linear-gradient(0deg, rgba(21,25,22,0.9), transparent 55%); }
+  .prog-img img{ width:100%; height:100%; object-fit: cover; transition: transform 0.7s var(--ease-clinical), filter 0.5s ease; filter: saturate(0.85); }
+  .prog-card:hover .prog-img img{ transform: scale(1.06); filter: saturate(1.05); }
+  .prog-img::after{ content:''; position: absolute; inset:0; background: linear-gradient(0deg, rgba(21,25,22,0.92), transparent 60%); }
   .prog-num{ position: absolute; top: 16px; left: 16px; font-family: var(--font-mono); font-size: 11px; color: var(--champagne); z-index: 2; letter-spacing: 0.1em; }
+  .prog-glyph{ position: absolute; top: 12px; right: 12px; z-index: 2; background: rgba(11,13,12,0.65); backdrop-filter: blur(6px); border: 1px solid var(--hairline-strong); border-radius: 10px; padding: 4px; opacity: 0.85; transition: opacity 0.4s ease, transform 0.4s var(--ease-clinical); }
+  .prog-card:hover .prog-glyph{ opacity: 1; transform: scale(1.08); filter: drop-shadow(0 0 6px rgba(164,169,141,0.5)); }
   .prog-body{ padding: 24px 26px 28px; flex: 1; display: flex; flex-direction: column; }
   .prog-body h3{ font-size: 19px; margin-bottom: 10px; }
   .prog-body p{ color: var(--muted); font-size: 14px; flex: 1; }
+  .prog-tags{ display: flex; flex-wrap: wrap; gap: 7px; margin: 16px 0 4px; }
+  .prog-tags span{ font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.06em; color: var(--sage-light); background: rgba(89,100,82,0.16); border: 1px solid rgba(164,169,141,0.22); padding: 4px 9px; border-radius: 999px; }
   .prog-cta{ margin-top: 16px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage-light); display: inline-flex; align-items: center; gap: 6px; }
 
   /* ---------- AUDIENCES ---------- */
@@ -211,19 +223,137 @@
             <button role="radio" aria-checked="false" data-depth="skeletal">Skeletal</button>
           </div>
           <svg id="bodyMapSvg" viewBox="0 0 1000 1000" style="width:100%;" role="group" aria-label="Interactive human body — select an area to learn about our rehabilitation programmes">
-            <g id="bodySilhouette" data-depth="surface" opacity="0.9">
-              <ellipse cx="500" cy="105" rx="55" ry="60" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M470 160 q30 15 60 0 l10 60 q-40 18 -80 0 z" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M420 210 q80 -30 160 0 l20 190 q-100 30 -200 0 z" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M420 220 q-70 20 -95 190" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M580 220 q70 20 95 190" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M325 410 q-20 60 5 110" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M675 410 q20 60 -5 110" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M450 400 q-30 220 -30 420" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M550 400 q30 220 30 420" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M420 830 q-10 60 -30 90" fill="none" stroke="#A4A98D" stroke-width="2"/>
-              <path d="M580 830 q10 60 30 90" fill="none" stroke="#A4A98D" stroke-width="2"/>
+            <g id="bodySilhouette" data-depth="surface">
+              <defs>
+                <linearGradient id="figFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#A4A98D" stop-opacity="0.22"/>
+                  <stop offset="100%" stop-color="#596452" stop-opacity="0.05"/>
+                </linearGradient>
+                <filter id="figGlow" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+
+              <!-- SURFACE: soft filled silhouette, smooth contours -->
+              <g class="depth-layer depth-surface">
+                <circle cx="500" cy="148" r="58" fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.6" opacity="0.9"/>
+                <path d="M466,203 C466,222 470,236 500,238 C530,236 534,222 534,203
+                         L534,222 C534,240 520,252 500,254 C480,252 466,240 466,222 Z"
+                      fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.4" opacity="0.85"/>
+                <path d="M500,238
+                         C 400,240 330,255 306,275
+                         C 288,320 270,368 258,404
+                         C 254,416 262,428 274,424
+                         C 292,412 312,372 330,332
+                         C 336,360 340,392 342,420
+                         C 330,470 322,510 320,538
+                         C 336,556 356,556 372,540
+                         C 380,500 392,458 410,426
+                         C 402,470 398,516 398,540
+                         C 396,610 402,690 412,760
+                         C 414,800 412,845 405,890
+                         C 402,915 410,935 430,938
+                         C 448,940 460,924 462,902
+                         C 470,845 480,780 490,730
+                         C 495,700 500,670 500,650
+                         C 500,670 505,700 510,730
+                         C 520,780 530,845 538,902
+                         C 540,924 552,940 570,938
+                         C 590,935 598,915 595,890
+                         C 588,845 586,800 588,760
+                         C 598,690 604,610 602,540
+                         C 602,516 598,470 590,426
+                         C 608,458 620,500 628,540
+                         C 644,556 664,556 680,538
+                         C 678,510 670,470 658,420
+                         C 660,392 664,360 670,332
+                         C 688,372 708,412 726,424
+                         C 738,428 746,416 742,404
+                         C 730,368 712,320 694,275
+                         C 670,255 600,240 500,238 Z"
+                      fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.6" opacity="0.85" stroke-linejoin="round"/>
+              </g>
+
+              <!-- MUSCLE: silhouette + contour lines suggesting major muscle groups -->
+              <g class="depth-layer depth-muscle">
+                <use href="#muscleBase"/>
+                <g fill="none" stroke="#A4A98D" stroke-width="1.1" opacity="0.55">
+                  <path d="M420,270 C460,290 540,290 580,270"/>
+                  <path d="M430,320 C465,335 535,335 570,320"/>
+                  <path d="M450,380 C475,392 525,392 550,380"/>
+                  <path d="M330,300 C310,330 296,368 286,400"/>
+                  <path d="M670,300 C690,330 704,368 714,400"/>
+                  <path d="M440,560 C460,600 460,650 452,700"/>
+                  <path d="M560,560 C540,600 540,650 548,700"/>
+                  <path d="M430,760 C438,800 442,845 436,890"/>
+                  <path d="M570,760 C562,800 558,845 564,890"/>
+                </g>
+              </g>
+
+              <!-- SKELETAL: simplified bone lines + joints -->
+              <g class="depth-layer depth-skeletal" stroke="#A4A98D" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round">
+                <circle cx="500" cy="148" r="30" stroke-width="1.6"/>
+                <line x1="500" y1="206" x2="500" y2="520"/>
+                <circle cx="500" cy="240" r="6" fill="#A4A98D" stroke="none"/>
+                <line x1="500" y1="250" x2="330" y2="270"/>
+                <line x1="330" y1="270" x2="270" y2="400"/>
+                <line x1="270" y1="400" x2="210" y2="495"/>
+                <circle cx="330" cy="270" r="7" fill="#A4A98D" stroke="none"/>
+                <circle cx="270" cy="400" r="7" fill="#A4A98D" stroke="none"/>
+                <circle cx="210" cy="495" r="7" fill="#A4A98D" stroke="none"/>
+                <line x1="500" y1="250" x2="670" y2="270"/>
+                <line x1="670" y1="270" x2="730" y2="400"/>
+                <line x1="730" y1="400" x2="790" y2="495"/>
+                <circle cx="670" cy="270" r="7" fill="#A4A98D" stroke="none"/>
+                <line x1="500" y1="510" x2="440" y2="680"/>
+                <line x1="440" y1="680" x2="440" y2="850"/>
+                <line x1="440" y1="850" x2="420" y2="925"/>
+                <circle cx="500" cy="510" r="7" fill="#A4A98D" stroke="none"/>
+                <circle cx="440" cy="680" r="7" fill="#A4A98D" stroke="none"/>
+                <circle cx="440" cy="850" r="7" fill="#A4A98D" stroke="none"/>
+                <line x1="500" y1="510" x2="560" y2="680"/>
+                <line x1="560" y1="680" x2="560" y2="850"/>
+                <line x1="560" y1="850" x2="580" y2="925"/>
+                <circle cx="560" cy="680" r="7" fill="#A4A98D" stroke="none"/>
+                <circle cx="560" cy="850" r="7" fill="#A4A98D" stroke="none"/>
+              </g>
             </g>
+            <defs><g id="muscleBase">
+              <circle cx="500" cy="148" r="58" fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.6" opacity="0.9"/>
+              <path d="M500,238
+                       C 400,240 330,255 306,275
+                       C 288,320 270,368 258,404
+                       C 254,416 262,428 274,424
+                       C 292,412 312,372 330,332
+                       C 336,360 340,392 342,420
+                       C 330,470 322,510 320,538
+                       C 336,556 356,556 372,540
+                       C 380,500 392,458 410,426
+                       C 402,470 398,516 398,540
+                       C 396,610 402,690 412,760
+                       C 414,800 412,845 405,890
+                       C 402,915 410,935 430,938
+                       C 448,940 460,924 462,902
+                       C 470,845 480,780 490,730
+                       C 495,700 500,670 500,650
+                       C 500,670 505,700 510,730
+                       C 520,780 530,845 538,902
+                       C 540,924 552,940 570,938
+                       C 590,935 598,915 595,890
+                       C 588,845 586,800 588,760
+                       C 598,690 604,610 602,540
+                       C 602,516 598,470 590,426
+                       C 608,458 620,500 628,540
+                       C 644,556 664,556 680,538
+                       C 678,510 670,470 658,420
+                       C 660,392 664,360 670,332
+                       C 688,372 708,412 726,424
+                       C 738,428 746,416 742,404
+                       C 730,368 712,320 694,275
+                       C 670,255 600,240 500,238 Z"
+                    fill="url(#figFill)" stroke="#A4A98D" stroke-width="1.6" opacity="0.85" stroke-linejoin="round"/>
+            </g></defs>
             
       <a href="rehabilitation/neck.html" class="region-hit" tabindex="0"
          data-label="NECK" data-title="Neck & Cervical Rehabilitation" data-blurb="Desk posture, stiffness, headaches and nerve-related pain."
@@ -324,11 +454,20 @@
         <a href="programmes/clinical-rehabilitation.html" class="prog-card card reveal">
           <div class="prog-img duotone">
             <span class="prog-num">01</span>
+            <svg class="prog-glyph" width="34" height="34" viewBox="0 0 34 34" fill="none">
+              <circle cx="17" cy="8" r="4" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="12" x2="17" y2="22" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="9" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="25" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="12" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="22" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+            </svg>
             <img src="assets/sage-hero-rehab.jpg" alt="Clinical Rehabilitation">
           </div>
           <div class="prog-body">
             <h3>Clinical Rehabilitation</h3>
             <p>Hands-on, one-to-one therapy for post-surgical recovery, chronic pain and injury — built around measurable movement goals.</p>
+            <div class="prog-tags"><span>PAIN</span><span>MOBILITY</span><span>POST-SURGICAL</span></div>
             <span class="prog-cta">Explore programme
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
@@ -338,11 +477,20 @@
         <a href="programmes/home-physiotherapy.html" class="prog-card card reveal">
           <div class="prog-img duotone">
             <span class="prog-num">02</span>
+            <svg class="prog-glyph" width="34" height="34" viewBox="0 0 34 34" fill="none">
+              <circle cx="17" cy="8" r="4" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="12" x2="17" y2="22" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="9" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="25" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="12" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="22" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+            </svg>
             <img src="assets/sage-home-care.jpg" alt="Home Physiotherapy">
           </div>
           <div class="prog-body">
             <h3>Home Physiotherapy</h3>
             <p>Full assessments and therapy sessions delivered at home, for patients who can't easily travel to a clinic.</p>
+            <div class="prog-tags"><span>AT HOME</span><span>ASSESSMENT</span><span>RECOVERY</span></div>
             <span class="prog-cta">Explore programme
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
@@ -352,11 +500,20 @@
         <a href="programmes/workplace-rehabilitation.html" class="prog-card card reveal">
           <div class="prog-img duotone">
             <span class="prog-num">03</span>
+            <svg class="prog-glyph" width="34" height="34" viewBox="0 0 34 34" fill="none">
+              <circle cx="17" cy="8" r="4" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="12" x2="17" y2="22" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="9" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="25" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="12" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="22" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+            </svg>
             <img src="assets/sage-warehouse.jpg" alt="Workplace Rehabilitation">
           </div>
           <div class="prog-body">
             <h3>Workplace Rehabilitation</h3>
             <p>On-site ergonomic assessments and injury-prevention programmes for teams of every kind — desk-based or hands-on.</p>
+            <div class="prog-tags"><span>LIFTING</span><span>POSTURE</span><span>WORK INJURY</span></div>
             <span class="prog-cta">Explore programme
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
@@ -366,11 +523,20 @@
         <a href="programmes/sports-performance.html" class="prog-card card reveal">
           <div class="prog-img duotone">
             <span class="prog-num">04</span>
+            <svg class="prog-glyph" width="34" height="34" viewBox="0 0 34 34" fill="none">
+              <circle cx="17" cy="8" r="4" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="12" x2="17" y2="22" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="9" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="25" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="12" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="22" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+            </svg>
             <img src="assets/sage-sports.jpg" alt="Sports & Performance">
           </div>
           <div class="prog-body">
             <h3>Sports & Performance</h3>
             <p>Return-to-play programmes for athletes — from weekend runners to competitive squads — built around your sport's demands.</p>
+            <div class="prog-tags"><span>STRENGTH</span><span>RETURN TO PLAY</span><span>PERFORMANCE</span></div>
             <span class="prog-cta">Explore programme
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
@@ -380,11 +546,20 @@
         <a href="programmes/pediatric-physiotherapy.html" class="prog-card card reveal">
           <div class="prog-img duotone">
             <span class="prog-num">05</span>
+            <svg class="prog-glyph" width="34" height="34" viewBox="0 0 34 34" fill="none">
+              <circle cx="17" cy="8" r="4" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="12" x2="17" y2="22" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="9" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="25" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="12" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="22" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+            </svg>
             <img src="assets/sage-pediatric.jpg" alt="Pediatric Physiotherapy">
           </div>
           <div class="prog-body">
             <h3>Pediatric Physiotherapy</h3>
             <p>Play-based therapy that supports strength, balance and developmental milestones, at a child's own pace.</p>
+            <div class="prog-tags"><span>BALANCE</span><span>COORDINATION</span><span>DEVELOPMENT</span></div>
             <span class="prog-cta">Explore programme
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
@@ -394,11 +569,20 @@
         <a href="programmes/healthy-ageing.html" class="prog-card card reveal">
           <div class="prog-img duotone">
             <span class="prog-num">06</span>
+            <svg class="prog-glyph" width="34" height="34" viewBox="0 0 34 34" fill="none">
+              <circle cx="17" cy="8" r="4" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="12" x2="17" y2="22" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="9" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="15" x2="25" y2="20" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="12" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+              <line x1="17" y1="22" x2="22" y2="30" stroke="#A4A98D" stroke-width="1.4"/>
+            </svg>
             <img src="assets/sage-office.jpg" alt="Healthy Ageing & Mobility">
           </div>
           <div class="prog-body">
             <h3>Healthy Ageing & Mobility</h3>
             <p>Balance, strength and fall-prevention programmes that help older adults stay independent and confident on their feet.</p>
+            <div class="prog-tags"><span>BALANCE</span><span>INDEPENDENCE</span><span>FALL PREVENTION</span></div>
             <span class="prog-cta">Explore programme
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
