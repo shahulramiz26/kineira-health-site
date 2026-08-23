@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Body map interactivity (homepage only)
-  const bodyMap = document.getElementById('bodyMapSvg');
+  const bodyMap = document.getElementById('bodyMapFigure');
   const panel = document.getElementById('bodyMapPanel');
   if (bodyMap && panel) {
     const regions = bodyMap.querySelectorAll('.region-hit');
