@@ -7,7 +7,7 @@
 <meta name="description" content="Kineira Health is a physiotherapy and rehabilitation practice. Personalised care for pain, injury, recovery and everyday movement — in clinic, at home and at work.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script type="application/ld+json">
 {
@@ -22,7 +22,7 @@
   /* ---------- HERO ---------- */
   .hero{ padding: 96px 0 80px; background: radial-gradient(700px 460px at 85% -10%, rgba(89,100,82,0.16), transparent 60%), var(--ink); overflow: hidden; position: relative; }
   .hero-grid{ display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
-  .hero h1{ font-size: 52px; margin-bottom: 22px; font-weight: 500; }
+  .hero h1{ font-family: 'Playfair Display', serif; font-weight: 500; font-size: 58px; line-height: 1.08; margin-bottom: 22px; letter-spacing: -0.01em; }
   .hero h1 .accent{ color: var(--sage-light); }
   .hero p.lead{ font-size: 17px; color: var(--muted); max-width: 480px; margin-bottom: 34px; }
   .hero-ctas{ display: flex; align-items: center; gap: 26px; margin-bottom: 44px; flex-wrap: wrap; }
@@ -30,17 +30,27 @@
   .tagline-strip .dot{ width: 4px; height: 4px; border-radius: 50%; background: var(--sage-light); }
 
   .hero-stats-row{ display: grid; grid-template-columns: repeat(4, auto); gap: 30px; margin-top: 52px; padding-top: 32px; border-top: 1px solid var(--hairline); }
-  .hero-stat{ display: flex; flex-direction: column; gap: 10px; }
+  .hero-stat{ display: flex; flex-direction: column; gap: 12px; }
+  .hero-stat .icon-box{ width: 40px; height: 40px; border: 1px solid var(--hairline-strong); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
   .hero-stat svg{ color: var(--sage-light); }
   .hero-stat span{ font-size: 12.5px; color: var(--muted); line-height: 1.35; }
 
   .scroll-indicator{ display: flex; align-items: center; gap: 10px; margin-top: 40px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-dim); }
-  .scroll-indicator .dot-ring{ width: 22px; height: 22px; border: 1px solid var(--hairline-strong); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-  .scroll-indicator .dot-ring::after{ content:''; width: 4px; height: 4px; border-radius: 50%; background: var(--sage-light); animation: scrollBounce 1.8s ease-in-out infinite; }
+  .scroll-indicator .phone-icon{ width: 15px; height: 24px; border: 1.4px solid var(--hairline-strong); border-radius: 5px; display: flex; align-items: flex-start; justify-content: center; padding-top: 4px; }
+  .scroll-indicator .phone-icon::after{ content:''; width: 2.5px; height: 5px; border-radius: 2px; background: var(--sage-light); animation: scrollBounce 1.8s ease-in-out infinite; }
   @keyframes scrollBounce{ 0%,100%{ transform: translateY(-3px); opacity: 0.5; } 50%{ transform: translateY(3px); opacity: 1; } }
 
   /* ---------- HERO ANATOMY VISUAL WITH LEADER-LINE LABELS ---------- */
   .hero-visual{ position: relative; }
+  .hero-visual::before{
+    content: '';
+    position: absolute;
+    top: 8%; left: 10%; right: -10%; bottom: 10%;
+    background:
+      repeating-radial-gradient(circle at 55% 45%, transparent 0, transparent 60px, rgba(164,169,141,0.05) 61px, rgba(164,169,141,0.05) 62px);
+    pointer-events: none;
+    z-index: 0;
+  }
   .hero-visual .frame{ position: relative; border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--hairline-strong); box-shadow: var(--shadow-lift); background: var(--card); }
   .hero-visual .frame img{ width: 100%; display: block; }
   .hv-point{ position: absolute; width: 10px; height: 10px; margin: -5px; z-index: 3; }
@@ -77,6 +87,7 @@
   .hv-label.align-left{ text-align: right; }
   .hero-visual .frame{
     position: relative;
+    z-index: 1;
     background: var(--ink);
     -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
     -webkit-mask-composite: source-in;
@@ -233,13 +244,15 @@
   <nav class="nav">
     <a href="index.html" class="brand">
       <img src="assets/logo-icon.png" alt="Kineira Health icon">
-      <span>KINEIRA HEALTH<small>Physiotherapy &amp; Rehabilitation</small></span>
+      <span>KINEIRA<small class="brand-sub">HEALTH</small><small class="brand-tag">Physiotherapy &middot; Rehabilitation &middot; Wellness</small></span>
     </a>
     <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html#programmes">Programmes</a>
-      <a href="index.html#body-map">Rehabilitation</a>
+      <a href="index.html#programmes" class="has-caret">Programmes
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
       <a href="about.html">About</a>
+      <a href="digital.html">Rehab Pro App</a>
       <a href="workplace.html">Workplace</a>
       <a href="contact.html">Contact</a>
       <a href="book.html" class="nav-cta">Book an Assessment</a>
@@ -254,7 +267,7 @@
     <div class="wrap hero-grid">
       <div>
         <div class="eyebrow">Physiotherapy • Rehabilitation • Wellness</div>
-        <h1>Your body was built to move.<br>We help you <span class="accent">move better.</span></h1>
+        <h1>Move better.<br><span class="accent">Live better.</span></h1>
         <p class="lead">Personalised physiotherapy and rehabilitation for pain, injury, recovery and everyday movement — delivered in clinic, at home and at work.</p>
         <div class="hero-ctas">
           <a href="book.html" class="btn-primary">Book an Assessment
@@ -268,24 +281,24 @@
 
         <div class="hero-stats-row">
           <div class="hero-stat">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+            <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg></div>
             <span>Expert<br>Physiotherapists</span>
           </div>
           <div class="hero-stat">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.35-9.5-9C.8 8.3 3 4 7 4c2 0 3.8 1.2 5 3 1.2-1.8 3-3 5-3 4 0 6.2 4.3 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg>
+            <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.35-9.5-9C.8 8.3 3 4 7 4c2 0 3.8 1.2 5 3 1.2-1.8 3-3 5-3 4 0 6.2 4.3 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
             <span>Personalised<br>Care</span>
           </div>
           <div class="hero-stat">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l9-7 9 7"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+            <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l9-7 9 7"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg></div>
             <span>Clinic, Home<br>& Workplace</span>
           </div>
           <div class="hero-stat">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+            <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></div>
             <span>Evidence Based<br>Practice</span>
           </div>
         </div>
 
-        <div class="scroll-indicator"><span class="dot-ring"></span> Scroll to explore</div>
+        <div class="scroll-indicator"><span class="phone-icon"></span> Scroll to explore</div>
       </div>
 
       <div class="hero-visual">
@@ -294,49 +307,49 @@
         </div>
 
         <div class="hv-point warn" style="left:27%; top:27%;"><div class="ripple"></div><div class="core"></div></div>
-        <div class="hv-label align-left" style="left:-16%; top:23%;">
+        <div class="hv-label align-left" style="left:-9%; top:23%;">
           <div class="lbl-title">Muscle Tear</div>
           <div class="lbl-sub">Injury · Pain · Recovery</div>
         </div>
 
         <div class="hv-point" style="left:32%; top:20%;"><div class="ripple"></div><div class="core"></div></div>
-        <div class="hv-label" style="left:58%; top:12%;">
+        <div class="hv-label" style="left:54%; top:12%;">
           <div class="lbl-title">Shoulder</div>
           <div class="lbl-sub">Mobility & strength</div>
         </div>
 
         <div class="hv-point" style="left:44%; top:30%;"><div class="ripple"></div><div class="core"></div></div>
-        <div class="hv-label" style="left:66%; top:27%;">
+        <div class="hv-label" style="left:60%; top:27%;">
           <div class="lbl-title">Back & Spine</div>
           <div class="lbl-sub">Posture & pain relief</div>
         </div>
 
         <div class="hv-point" style="left:43%; top:42%;"><div class="ripple"></div><div class="core"></div></div>
-        <div class="hv-label align-left" style="left:-16%; top:39%;">
+        <div class="hv-label align-left" style="left:-9%; top:39%;">
           <div class="lbl-title">Hip</div>
           <div class="lbl-sub">Stability & movement</div>
         </div>
 
         <div class="hv-point" style="left:35%; top:57%;"><div class="ripple"></div><div class="core"></div></div>
-        <div class="hv-label" style="left:60%; top:55%;">
+        <div class="hv-label" style="left:56%; top:55%;">
           <div class="lbl-title">Knee</div>
           <div class="lbl-sub">Strength & recovery</div>
         </div>
 
         <div class="hv-point" style="left:31%; top:73%;"><div class="ripple"></div><div class="core"></div></div>
-        <div class="hv-label" style="left:57%; top:71%;">
+        <div class="hv-label" style="left:53%; top:71%;">
           <div class="lbl-title">Ankle</div>
           <div class="lbl-sub">Balance & mobility</div>
         </div>
 
         <svg class="hv-leader" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
           <g stroke="rgba(164,169,141,0.4)" stroke-width="0.15" fill="none">
-            <line x1="27" y1="27" x2="9" y2="26"/>
-            <line x1="32" y1="20" x2="58" y2="13"/>
-            <line x1="44" y1="30" x2="66" y2="28"/>
-            <line x1="43" y1="42" x2="9" y2="41"/>
-            <line x1="35" y1="57" x2="60" y2="56"/>
-            <line x1="31" y1="73" x2="57" y2="72"/>
+            <line x1="27" y1="27" x2="16" y2="26"/>
+            <line x1="32" y1="20" x2="54" y2="13"/>
+            <line x1="44" y1="30" x2="60" y2="28"/>
+            <line x1="43" y1="42" x2="16" y2="41"/>
+            <line x1="35" y1="57" x2="56" y2="56"/>
+            <line x1="31" y1="73" x2="53" y2="72"/>
           </g>
         </svg>
       </div>
