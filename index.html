@@ -21,13 +21,36 @@
 <style>
   /* ---------- HERO ---------- */
   .hero{ padding: 96px 0 80px; background: radial-gradient(700px 460px at 85% -10%, rgba(89,100,82,0.16), transparent 60%), var(--ink); overflow: hidden; position: relative; }
-  .hero-grid{ display: block; max-width: 640px; margin: 0; position: relative; z-index: 1; }
+  .hero-grid{ display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
   .hero h1{ font-size: 52px; margin-bottom: 22px; font-weight: 500; }
   .hero h1 .accent{ color: var(--sage-light); }
   .hero p.lead{ font-size: 17px; color: var(--muted); max-width: 480px; margin-bottom: 34px; }
   .hero-ctas{ display: flex; align-items: center; gap: 26px; margin-bottom: 44px; flex-wrap: wrap; }
   .tagline-strip{ display: flex; align-items: center; gap: 14px; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-dim); }
   .tagline-strip .dot{ width: 4px; height: 4px; border-radius: 50%; background: var(--sage-light); }
+
+  .hero-stats-row{ display: grid; grid-template-columns: repeat(4, auto); gap: 30px; margin-top: 52px; padding-top: 32px; border-top: 1px solid var(--hairline); }
+  .hero-stat{ display: flex; flex-direction: column; gap: 10px; }
+  .hero-stat svg{ color: var(--sage-light); }
+  .hero-stat span{ font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+
+  .scroll-indicator{ display: flex; align-items: center; gap: 10px; margin-top: 40px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-dim); }
+  .scroll-indicator .dot-ring{ width: 22px; height: 22px; border: 1px solid var(--hairline-strong); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .scroll-indicator .dot-ring::after{ content:''; width: 4px; height: 4px; border-radius: 50%; background: var(--sage-light); animation: scrollBounce 1.8s ease-in-out infinite; }
+  @keyframes scrollBounce{ 0%,100%{ transform: translateY(-3px); opacity: 0.5; } 50%{ transform: translateY(3px); opacity: 1; } }
+
+  /* ---------- HERO ANATOMY VISUAL WITH LEADER-LINE LABELS ---------- */
+  .hero-visual{ position: relative; }
+  .hero-visual .frame{ position: relative; border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--hairline-strong); box-shadow: var(--shadow-lift); background: var(--card); }
+  .hero-visual .frame img{ width: 100%; display: block; }
+  .hv-point{ position: absolute; width: 10px; height: 10px; margin: -5px; z-index: 3; }
+  .hv-point .core{ width: 100%; height: 100%; border-radius: 50%; background: var(--sage-light); box-shadow: 0 0 10px 3px rgba(164,169,141,0.7), 0 0 22px 8px rgba(164,169,141,0.3); animation: dotPulse 3s ease-in-out infinite; }
+  .hv-point.warn .core{ background: #C97355; box-shadow: 0 0 10px 3px rgba(201,115,85,0.7), 0 0 22px 8px rgba(201,115,85,0.3); }
+  .hv-leader{ position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+  .hv-label{ position: absolute; width: 128px; font-family: var(--font-body); z-index: 3; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.9); }
+  .hv-label .lbl-title{ font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 2px; }
+  .hv-label .lbl-sub{ font-size: 11px; color: #D7DBD2; }
+  .hv-label.align-left{ text-align: right; }
   .hero-visual{ position: relative; }
   .hero-visual .frame{ border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-lift); position: relative; aspect-ratio: 4/4.6; border: 1px solid var(--hairline-strong); }
   .hero-visual .frame img{ width:100%; height:100%; object-fit: cover; }
@@ -152,6 +175,8 @@
     .hero-grid{ grid-template-columns: 1fr; }
     .hero h1{ font-size: 38px; }
     .hero-visual{ order: -1; max-width: 380px; margin: 0 auto; }
+    .hv-label, .hv-leader{ display: none; }
+    .hero-stats-row{ grid-template-columns: repeat(2, auto); row-gap: 24px; }
     .float-label{ display: none; }
     .bm-grid{ grid-template-columns: 1fr; }
     .prog-grid{ grid-template-columns: repeat(2,1fr); }
@@ -211,6 +236,80 @@
           </a>
         </div>
         <div class="tagline-strip"><span>Clinic</span><span class="dot"></span><span>Home</span><span class="dot"></span><span>Workplace</span><span class="dot"></span><span>Performance</span></div>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+            <span>Expert<br>Physiotherapists</span>
+          </div>
+          <div class="hero-stat">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.35-9.5-9C.8 8.3 3 4 7 4c2 0 3.8 1.2 5 3 1.2-1.8 3-3 5-3 4 0 6.2 4.3 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg>
+            <span>Personalised<br>Care</span>
+          </div>
+          <div class="hero-stat">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l9-7 9 7"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+            <span>Clinic, Home<br>& Workplace</span>
+          </div>
+          <div class="hero-stat">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+            <span>Evidence Based<br>Practice</span>
+          </div>
+        </div>
+
+        <div class="scroll-indicator"><span class="dot-ring"></span> Scroll to explore</div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="frame">
+          <img src="assets/bodymap-figure.jpg" alt="Anatomical illustration of the human muscular system, front view">
+        </div>
+
+        <div class="hv-point warn" style="left:11%; top:29%;"><div class="core"></div></div>
+        <div class="hv-label align-left" style="left:-16%; top:23%;">
+          <div class="lbl-title">Elbow</div>
+          <div class="lbl-sub">Injury · Pain · Recovery</div>
+        </div>
+
+        <div class="hv-point" style="left:32%; top:20%;"><div class="core"></div></div>
+        <div class="hv-label" style="left:58%; top:3%;">
+          <div class="lbl-title">Shoulder</div>
+          <div class="lbl-sub">Mobility & strength</div>
+        </div>
+
+        <div class="hv-point" style="left:44%; top:30%;"><div class="core"></div></div>
+        <div class="hv-label" style="left:66%; top:24%;">
+          <div class="lbl-title">Back & Spine</div>
+          <div class="lbl-sub">Posture & pain relief</div>
+        </div>
+
+        <div class="hv-point" style="left:43%; top:42%;"><div class="core"></div></div>
+        <div class="hv-label align-left" style="left:-16%; top:41%;">
+          <div class="lbl-title">Hip</div>
+          <div class="lbl-sub">Stability & movement</div>
+        </div>
+
+        <div class="hv-point" style="left:35%; top:57%;"><div class="core"></div></div>
+        <div class="hv-label" style="left:60%; top:54%;">
+          <div class="lbl-title">Knee</div>
+          <div class="lbl-sub">Strength & recovery</div>
+        </div>
+
+        <div class="hv-point" style="left:31%; top:73%;"><div class="core"></div></div>
+        <div class="hv-label" style="left:57%; top:76%;">
+          <div class="lbl-title">Ankle</div>
+          <div class="lbl-sub">Balance & mobility</div>
+        </div>
+
+        <svg class="hv-leader" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <g stroke="rgba(164,169,141,0.4)" stroke-width="0.15" fill="none">
+            <line x1="11" y1="29" x2="9" y2="27"/>
+            <line x1="32" y1="20" x2="58" y2="6"/>
+            <line x1="44" y1="30" x2="66" y2="27"/>
+            <line x1="43" y1="42" x2="9" y2="44"/>
+            <line x1="35" y1="57" x2="60" y2="57"/>
+            <line x1="31" y1="73" x2="57" y2="78"/>
+          </g>
+        </svg>
       </div>
     </div>
   </section>
