@@ -45,14 +45,24 @@
   .hero-visual::before{
     content: '';
     position: absolute;
-    top: 8%; left: 10%; right: -10%; bottom: 10%;
+    inset: -14% -18%;
     background:
-      repeating-radial-gradient(circle at 55% 45%, transparent 0, transparent 60px, rgba(164,169,141,0.05) 61px, rgba(164,169,141,0.05) 62px);
+      radial-gradient(closest-side, rgba(89,100,82,0.45), rgba(89,100,82,0.12) 52%, transparent 74%),
+      repeating-radial-gradient(circle at 50% 44%, transparent 0 84px, rgba(164,169,141,0.07) 84px 85px);
+    mask-image: radial-gradient(closest-side, #000 26%, transparent 84%);
+    -webkit-mask-image: radial-gradient(closest-side, #000 26%, transparent 84%);
     pointer-events: none;
     z-index: 0;
   }
-  .hero-visual .frame{ position: relative; border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--hairline-strong); box-shadow: var(--shadow-lift); background: var(--card); }
-  .hero-visual .frame img{ width: 100%; display: block; }
+  .hero-visual .frame{
+    position: relative;
+    background: var(--ink);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    mask-composite: intersect;
+  }
+  .hero-visual .frame img{ width: 100%; display: block; filter: brightness(0.97); }
   .hv-point{ position: absolute; width: 10px; height: 10px; margin: -5px; z-index: 3; }
   .hv-point .core{
     position: relative; width: 14px; height: 14px; margin: -2px; border-radius: 50%;
@@ -85,16 +95,6 @@
   .hv-label .lbl-title{ font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 2px; }
   .hv-label .lbl-sub{ font-size: 11px; color: #D7DBD2; }
   .hv-label.align-left{ text-align: right; }
-  .hero-visual .frame{
-    position: relative;
-    z-index: 1;
-    background: var(--ink);
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-    mask-composite: intersect;
-  }
-  .hero-visual .frame img{ width:100%; display: block; filter: brightness(0.97); }
   .float-label span{ display:block; color: var(--muted); font-size: 9.5px; text-transform: none; letter-spacing: 0; margin-top: 2px; }
   .fl-1{ top: 8%; left: -8%; }
   .fl-2{ top: 38%; right: -10%; }
